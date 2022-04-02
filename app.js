@@ -13,7 +13,7 @@ app.use(express.json())
 
 app.use('/auths', authUser);
 
-app.use('/todos', todo)
+app.use('/moc', todo)
 
 app.post('/welcome', auth, (req, res) =>{
     res.status(200).send("Welcome")

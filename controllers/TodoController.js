@@ -6,20 +6,13 @@ const { default: mongoose } = require('mongoose');
 const createTask = async (req, res) => {
 
     // get value from body
-    const {_id, date, priority, taskDetail, taskDate, textTime, timestamp, topic, urlPhoto} = req.body
+    const {_id, product_id, product_name} = req.body
     const users = await User.findOne({_id});
     //create data on mongodb
     const todo =  await Todo.create({
         id_user: new mongoose.Types.ObjectId(users._id),
-        date,
-        priority,
-        taskDetail,
-        taskDate,
-        textTime,
-        timestamp,
-        topic,
-        urlPhoto,
-        achive: false
+        product_id,
+        product_name
     }) 
     
     //send data back
