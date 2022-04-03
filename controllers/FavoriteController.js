@@ -14,9 +14,7 @@ const createFavorite = async (req, res) => {
     //date calculate
     const now = Date.now();
     const date = new Date(now)
-    console.log(date)
     var year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
-    console.log(year, month, day);
     const today = year + '-' + (month < 10 ? "0" + month : month) + '-' + (day < 10 ? "0" + day : day);
     const getWeekAgo = () => {
         const day = date.getDate() - 7;
@@ -45,10 +43,8 @@ const createFavorite = async (req, res) => {
         await Productid.find({ product_id: product_id })
             .then(async (data) => {
                 if (data.length == 0) {
-                    console.log(url);
                     await axios.get(url)
                         .then(async (res) => {
-                            console.log(res.data);
                             const {
                                 product_id,
                                 product_name,
@@ -76,7 +72,7 @@ const createFavorite = async (req, res) => {
                         })
                     await Productid.create({
                         product_id,
-                        product_name,
+                        product_name: res.data.product_name,
                     });
 
                 } else {
@@ -103,10 +99,6 @@ const createFavorite = async (req, res) => {
         //response back
         res.status(404).send({ data: error, message: "error" });
     }
-
-
-
-
 
 }
 
