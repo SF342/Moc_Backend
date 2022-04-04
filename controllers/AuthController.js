@@ -1,7 +1,7 @@
 const User = require('../model/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs/dist/bcrypt');
-
+var axios = require('axios');
 
 // Register
 const register = async (req, res) => {
@@ -86,4 +86,8 @@ const login = async (req, res) => {
 
 }
 
-module.exports = {login, register};
+const facebook_login = async (req, res, next) => {
+
+}
+
+module.exports = {login, register, facebook_login};

@@ -28,15 +28,6 @@ const createFavorite = async (req, res) => {
     }
     const weekAgo = getWeekAgo();
 
-    // function msToTime(duration) {
-    //     var milliseconds = Math.floor((duration % 1000) / 100),
-    //         seconds = Math.floor((duration / 1000) % 60),
-    //         minutes = Math.floor((duration / (1000 * 60)) % 60),
-    //         hours = Math.floor((duration / (1000 * 60 * 60)) % 24) + 7;
-
-    //     return { hours, minutes, seconds, milliseconds };
-    // }
-
     let url = "https://dataapi.moc.go.th/gis-product-prices?product_id=" + product_id + "&from_date=" + weekAgo + "&to_date=" + today;
 
     let productData = []
@@ -104,10 +95,6 @@ const createFavorite = async (req, res) => {
         res.status(404).send({ data: error, message: "error" });
     }
 
-
-
-
-
 }
 
 
@@ -138,13 +125,27 @@ const getFavorite = async (req, res) => {
 
     // get user id 
     const id = req.params.id
-
+    console.log(id)
     // find user id in db
-    const getAll = await Favorite.find({ id_user: id });
-
+    const getAll = await Favorite.find({ user_id: id });
+    console.log(getAll)
     // response data
     res.status(200).send(getAll)
 }
+
+const getProductDetail = async (req, res) => {
+
+    // get user id 
+    const id = req.params.id
+    console.log(id)
+    // find user id in db
+    const getAll = await Productid.find({ product_id: id });
+    console.log("Product id", getAll)
+    // response data
+    res.status(200).send(getAll)
+}
+
+
 
 const deleteFavorite = async (req, res) => {
 
@@ -159,4 +160,4 @@ const deleteFavorite = async (req, res) => {
 }
 
 
-module.exports = { createFavorite, getFavorite, updateFavorite, deleteFavorite };
+module.exports = { createFavorite, getFavorite, updateFavorite, deleteFavorite, getProductDetail };
