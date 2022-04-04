@@ -26,8 +26,6 @@ async function updateProduct() {
         return "https://dataapi.moc.go.th/gis-product-prices?product_id=" + product_id + "&from_date=" + weekAgo + "&to_date=" + today;
     }
 
-
-
     data.forEach(async (element) => {
         await axios.get(url(element.product_id))
             .then(async (res) => {

@@ -19,7 +19,7 @@ const createFavorite = async (req, res) => {
     const getWeekAgo = () => {
         const day = date.getDate() - 7;
         if (day <= 0) {
-            return year + '-' + (month < 10 ? "0" + month : month) + '-' + ((30 + day) < 10 ? "0" + (30 + day) : (30 + day))
+            return year + '-' + ((month - 1) < 10 ? "0" + (month - 1) : (month - 1)) + '-' + ((30 + day) < 10 ? "0" + (30 + day) : (30 + day))
         } else {
             return year + '-' + (month < 10 ? "0" + month : month) + '-' + ((day) < 10 ? "0" + (day) : (day))
         }
@@ -27,7 +27,7 @@ const createFavorite = async (req, res) => {
     const weekAgo = getWeekAgo();
 
     let url = "https://dataapi.moc.go.th/gis-product-prices?product_id=" + product_id + "&from_date=" + weekAgo + "&to_date=" + today;
-
+    console.log(url);
     let productData = []
     //check product id 
     try {
@@ -60,17 +60,19 @@ const createFavorite = async (req, res) => {
                                 price_max_avg,
                                 price_list
                             });
+                            await Productid.create({
+                                product_id,
+                                product_name
+                            });
                         })
-                    await Productid.create({
-                        product_id,
-                        product_name: res.data.product_name,
-                    });
+
 
                 } else {
                     productData.push(...data)
                 }
             })
     } catch (error) {
+        console.log(error);
         console.log(error.messageFormat)
     }
 
