@@ -8,9 +8,9 @@ async function updateProduct() {
 
     const now = Date.now();
     const date = new Date(now)
-    console.log(date)
+    //console.log(date)
     var year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
-    console.log(year, month, day);
+    //console.log(year, month, day);
     const today = year + '-' + (month < 10 ? "0" + month : month) + '-' + (day < 10 ? "0" + day : day);
     const getWeekAgo = () => {
         const day = date.getDate() - 7;
@@ -58,7 +58,7 @@ async function updateProduct() {
             })
     });
 
-    console.log("updateProduct Success date " + today);
+    //console.log("updateProduct Success date " + today);
 }
 
 module.exports = { updateProduct };

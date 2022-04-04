@@ -49,7 +49,6 @@ app.use(passport.initialize());
 //Setting Up Session
 app.use(passport.session())
 
-const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.render('pages/index')

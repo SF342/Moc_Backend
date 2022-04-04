@@ -124,7 +124,6 @@ const getFavorite = async (req, res) => {
     console.log(id)
     // find user id in db
     const getAll = await Favorite.find({ user_id: id });
-    console.log(getAll)
     // response data
     res.status(200).send(getAll)
 }
@@ -133,26 +132,24 @@ const getProductDetail = async (req, res) => {
 
     // get user id 
     const id = req.params.id
-    console.log(id)
     // find user id in db
     const getAll = await Productid.find({ product_id: id });
-    console.log("Product id", getAll)
     // response data
     res.status(200).send(getAll)
 }
 
 
-
 const deleteFavorite = async (req, res) => {
 
+    const uid = req.params.user_id
     // get user id 
-    const id = req.params.id
+    const id = req.params._id
 
     // find data id in db
-    const deleteFavorite = await Favorite.deleteOne({ _id: id });
+    const deleteFavoriteTask = await Favorite.remove({ user_id : uid, product_id: id });
 
     // response data
-    res.status(200).send({ data: deleteFavorite, message: "success" })
+    res.status(200).send({ data: deleteFavoriteTask, message: "success" })
 }
 
 
