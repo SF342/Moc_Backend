@@ -8,6 +8,8 @@ router.put('/', controller.updateFavorite)
 router.delete('/:user_id/:_id', controller.deleteFavorite)
 router.get('/productDetail/:id', controller.getProductDetail)
 
+router.post('/updatedata', controller.createFavoriteData)
+
 
 module.exports = router;
 

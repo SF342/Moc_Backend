@@ -8,7 +8,7 @@ const port = process.env.PORT || API_PORT
 
 function updateStamp() {
     console.log("do something");
-    updateProduct()
+    // updateProduct()
 }
 
 updateStamp();

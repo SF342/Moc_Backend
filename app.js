@@ -1,5 +1,6 @@
 require('dotenv').config()
 require('./config/database').connect();
+require('./passport-setup');
 
 const passport = require('passport');
 const cookieSession = require('cookie-session')
@@ -9,20 +10,23 @@ const express = require('express')
 const auth = require('./middleware/auth');
 const authUser = require('./routes/auth')
 var bodyParser = require('body-parser');
-require('./passport-setup');
 
+let allowCrossDomain = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
+    next();
+}
 const app = express()
 
 app.set("view engine", "ejs")
 
+app.use(allowCrossDomain);
 app.use(express.json())
-
 app.use('/auths', authUser);
-
 app.use('/moc', todo)
 app.use('/favorite', favorite)
 
-app.post('/welcome', auth, (req, res) =>{
+app.post('/welcome', auth, (req, res) => {
     res.status(200).send("Welcome")
 })
 
@@ -56,45 +60,45 @@ app.get('/', (req, res) => {
 
 app.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
-app.get('/good',  (req, res) => {
+app.get('/good', (req, res) => {
     console.log(req.user.photos[0].value)
-    res.render('pages/profile.ejs',{
-        name:req.user.displayName,
-        pic:req.user._json.picture,
-        email:req.user.emails[0].value,
+    res.render('pages/profile.ejs', {
+        name: req.user.displayName,
+        pic: req.user._json.picture,
+        email: req.user.emails[0].value,
         profile: "google"
     })
 })
 
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/google/callback', 
-    passport.authenticate('google', 
-    {failureRedirect: '/failed'}), 
+app.get('/google/callback',
+    passport.authenticate('google',
+        { failureRedirect: '/failed' }),
     (req, res) => {
         res.redirect('/good');
     })
 
-app.get('/profile',  (req,res) => {
-    console.log("----->",req.user)
+app.get('/profile', (req, res) => {
+    console.log("----->", req.user)
     res.render('pages/profile', {
         profile: "facebook",
-        name:req.user.displayName,
-        pic:req.user.photos[0].value,
-        email:req.user.emails[0].value // get the user out of session and pass to template
+        name: req.user.displayName,
+        pic: req.user.photos[0].value,
+        email: req.user.emails[0].value // get the user out of session and pass to template
     });
 })
 
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
 app.get('/facebook/callback',
-	passport.authenticate('facebook', {
-		successRedirect : '/profile',
-        failureRedirect : '/'
+    passport.authenticate('facebook', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
     }
-));
+    ));
 
-app.get('/logout', function(req, res) {
+app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });

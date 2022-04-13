@@ -56,7 +56,7 @@ async function updateProduct() {
             })
     });
 
-    //console.log("updateProduct Success date " + today);
+    console.log("updateProduct Success date " + today);
 }
 
 module.exports = { updateProduct };
