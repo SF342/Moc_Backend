@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
     price_min_avg: { type: Number},
     price_max_avg: { type: Number},
     price_list: { type: Array},
+    description: { type: String, default: ''}
 
 
 })

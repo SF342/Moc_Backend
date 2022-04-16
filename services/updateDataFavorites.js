@@ -29,30 +29,34 @@ async function updateProduct() {
     data.forEach(async (element) => {
         await axios.get(url(element.product_id))
             .then(async (res) => {
-                console.log(res.data);
-                const {
-                    product_id,
-                    product_name,
-                    product_desc_en,
-                    product_desc_th,
-                    category_name,
-                    group_name,
-                    unit,
-                    price_min_avg,
-                    price_max_avg,
-                    price_list
-                } = res.data;
-                await Product.updateOne({ product_id: product_id }, {
-                    product_name,
-                    product_desc_en,
-                    product_desc_th,
-                    category_name,
-                    group_name,
-                    unit,
-                    price_min_avg,
-                    price_max_avg,
-                    price_list
-                });
+                if (res.data.error != "Bad Request.") {
+                    console.log(res.data);
+                    const {
+                        product_id,
+                        product_name,
+                        product_desc_en,
+                        product_desc_th,
+                        category_name,
+                        group_name,
+                        unit,
+                        price_min_avg,
+                        price_max_avg,
+                        price_list
+                    } = res.data;
+                    await Product.updateOne({ product_id: product_id }, {
+                        product_name,
+                        product_desc_en,
+                        product_desc_th,
+                        category_name,
+                        group_name,
+                        unit,
+                        price_min_avg,
+                        price_max_avg,
+                        price_list,
+                        description: "last update data" + today
+                    });
+                }
+
             })
     });
 

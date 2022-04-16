@@ -177,7 +177,7 @@ const deleteFavorite = async (req, res) => {
 const createFavoriteData = async (req, res) => {
 
     // get value from body
-    const { product_id } = req.body
+    const { product_id, product_name } = req.body
     let error;
     console.log(product_id);
     //date calculate
@@ -208,6 +208,15 @@ const createFavoriteData = async (req, res) => {
                             .then(async (res) => {
                                 console.log(res.data);
                                 if (res.data.error == "Bad Request.") {
+                                    await Product.create({
+                                        product_id: product_id,
+                                        product_name: product_name,
+                                        description: "data out of date"
+                                    });
+                                    await Productid.create({
+                                        product_id: product_id,
+                                        product_name: product_name
+                                    });
                                     error = res.data.error
                                 } else {
                                     const {
@@ -248,7 +257,7 @@ const createFavoriteData = async (req, res) => {
                     }
                 })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             console.log(error.messageFormat)
         }
 
@@ -267,7 +276,7 @@ const createFavoriteData = async (req, res) => {
             //response back
             res.status(200).send({ data: product_id, message: "success" });
         } else {
-            // getDataApi(product_id)
+
             res.status(200).send({ data: product_id, message: "error" });
         }
 
