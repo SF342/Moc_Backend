@@ -97,6 +97,7 @@ const createFavorite = async (req, res) => {
             })
 
             //response back
+            console.log(favorite);
             res.status(200).send({ data: favorite, message: "success" });
         } else {
             getDataApi(product_id)
@@ -164,11 +165,13 @@ const deleteFavorite = async (req, res) => {
     // get user id 
     const id = req.params._id
 
+
+    console.log(uid, id);
     // find data id in db
-    const deleteFavoriteTask = await Favorite.remove({ user_id: uid, product_id: id });
+    await Favorite.deleteOne({ user_id: uid, product_id: id });
 
     // response data
-    res.status(200).send({ data: deleteFavoriteTask, message: "success" })
+    res.status(200).send({ data: id, message: "success" })
 }
 
 
