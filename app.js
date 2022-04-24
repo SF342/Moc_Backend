@@ -2,14 +2,17 @@ require('dotenv').config()
 require('./config/database').connect();
 require('./passport-setup');
 
+const express = require('express')
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session')
+const auth = require('./middleware/auth');
+
 const todo = require('./routes/todo')
 const favorite = require('./routes/Favorite')
-const express = require('express')
-const auth = require('./middleware/auth');
 const authUser = require('./routes/auth')
-var bodyParser = require('body-parser');
+const product = require('./routes/Product')
+
 
 let allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
@@ -25,6 +28,8 @@ app.use(express.json())
 app.use('/auths', authUser);
 app.use('/moc', todo)
 app.use('/favorite', favorite)
+app.use('/product', product)
+
 
 app.post('/welcome', auth, (req, res) => {
     res.status(200).send("Welcome")
