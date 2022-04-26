@@ -118,19 +118,26 @@ const updateFavorite = async (req, res) => {
 
     const { _id, date, priority, taskDetail, taskDate, timestamp, topic, urlPhoto, achive } = req.body
 
-    //update task by using task id
-    const updateUserTask = await Favorite.updateOne({ '_id': _id }, {
-        "$set": {
-            date: date,
-            priority: priority,
-            taskDetail: taskDetail,
-            taskDate: taskDate,
-            timestamp: timestamp,
-            topic: topic,
-            urlPhoto: urlPhoto,
-            achive: achive
-        }
-    });
+    try {
+        //update task by using task id
+        const updateUserTask = await Favorite.updateOne({ '_id': _id }, {
+            "$set": {
+                date: date,
+                priority: priority,
+                taskDetail: taskDetail,
+                taskDate: taskDate,
+                timestamp: timestamp,
+                topic: topic,
+                urlPhoto: urlPhoto,
+                achive: achive
+            }
+        });
+    } catch (error) {
+
+        console.log(error);
+        res.status(200).send(error);
+    }
+
 
     //response data
     res.status(200).send(updateUserTask)
@@ -142,20 +149,37 @@ const getFavorite = async (req, res) => {
     // get user id 
     const id = req.params.id
     console.log(id)
-    // find user id in db
-    const getAll = await Favorite.find({ user_id: id });
-    // response data
-    res.status(200).send(getAll)
+
+    try {
+        // find user id in db
+        const getAll = await Favorite.find({ user_id: id });
+        // response data
+        res.status(200).send(getAll)
+    } catch (error) {
+
+        console.log(error);
+        res.status(200).send(error);
+    }
+
 }
 
 const getProductDetail = async (req, res) => {
 
     // get user id 
     const id = req.params.id
-    // find user id in db
-    const getAll = await Productid.find({ product_id: id });
-    // response data
-    res.status(200).send(getAll)
+
+    try {
+        // find user id in db
+        const getAll = await Productid.find({ product_id: id });
+        // response data
+        res.status(200).send(getAll)
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(200).send(error);
+    }
+
 }
 
 
@@ -165,13 +189,19 @@ const deleteFavorite = async (req, res) => {
     // get user id 
     const id = req.params._id
 
+    try {
+        // find data id in db
+        await Favorite.deleteOne({ user_id: uid, product_id: id });
 
+        // response data
+        res.status(200).send({ data: id, message: "success" })
+    } catch (error) {
+
+        console.log(error);
+        res.status(200).send(error);
+    }
     console.log(uid, id);
-    // find data id in db
-    await Favorite.deleteOne({ user_id: uid, product_id: id });
 
-    // response data
-    res.status(200).send({ data: id, message: "success" })
 }
 
 

@@ -5,10 +5,10 @@ var axios = require('axios');
 
 // Register
 const register = async (req, res) => {
-    
-    try{
+
+    try {
         // Get value
-        const {username, email, password} = req.body
+        const { username, email, password } = req.body
 
         // Validate input
         if (!(email && password && username)) {
@@ -18,7 +18,7 @@ const register = async (req, res) => {
         // Check email already exist ?
         const oldUser = await User.findOne({ email });
 
-        if( oldUser ){
+        if (oldUser) {
             return res.status(409).send("USer already exist")
         }
 
@@ -28,25 +28,25 @@ const register = async (req, res) => {
         // create user in db
         const user = await User.create({
             username,
-            email : email.toLowerCase(),
-            password : encryptedPassword
+            email: email.toLowerCase(),
+            password: encryptedPassword
         })
 
 
         //Token Create
         const token = jwt.sign(
-            {user_id: user._id, email},
+            { user_id: user._id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn : '2h'
+                expiresIn: '2h'
             }
         )
-         
+
         user.token = token;
 
         return res.status(201).json(user)
 
-    } 
+    }
     catch {
         console.log(err)
     }
@@ -55,24 +55,24 @@ const register = async (req, res) => {
 // Login 
 const login = async (req, res) => {
 
-    try{
-        const {email, password} = req.body
-        if(!(email && password)){
+    try {
+        const { email, password } = req.body
+        if (!(email && password)) {
             res.status(400).send("ALl Input is required")
         }
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
-        if (user && ( bcrypt.compare(password, user.password))){
+        if (user && (bcrypt.compare(password, user.password))) {
 
             const token = jwt.sign(
-                {user_id: user._id, email},
+                { user_id: user._id, email },
                 process.env.TOKEN_KEY,
                 {
                     expiresIn: '2h',
                 }
-                )
-             //save token
-             user.token = token;
+            )
+            //save token
+            user.token = token;
 
             return res.status(200).json(user)
         }
@@ -80,7 +80,7 @@ const login = async (req, res) => {
         return res.status(400).send("Invalid auth login")
 
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 
@@ -90,4 +90,4 @@ const facebook_login = async (req, res, next) => {
 
 }
 
-module.exports = {login, register, facebook_login};
+module.exports = { login, register, facebook_login };
