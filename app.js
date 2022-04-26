@@ -6,7 +6,7 @@ const express = require('express')
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session')
-const auth = require('./middleware/auth');
+const auth = require('./middleware/Auth');
 
 const todo = require('./routes/todo')
 const favorite = require('./routes/Favorite')
