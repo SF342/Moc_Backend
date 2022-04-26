@@ -10,7 +10,7 @@ const auth = require('./middleware/Auth');
 
 const todo = require('./routes/todo')
 const favorite = require('./routes/Favorite')
-const authUser = require('./routes/auth')
+const authUser = require('./routes/Auth')
 const product = require('./routes/Product')
 
 
