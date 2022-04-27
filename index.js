@@ -10,7 +10,7 @@ function updateStamp() {
     updateProduct()
 }
 
-updateStamp();
+// updateStamp();
 
 setInterval(() => {
     updateStamp();
