@@ -27,37 +27,42 @@ async function updateProduct() {
     }
 
     data.forEach(async (element) => {
-        await axios.get(url(element.product_id))
-            .then(async (res) => {
-                if (res.data.error != "Bad Request.") {
-                    console.log(res.data);
-                    const {
-                        product_id,
-                        product_name,
-                        product_desc_en,
-                        product_desc_th,
-                        category_name,
-                        group_name,
-                        unit,
-                        price_min_avg,
-                        price_max_avg,
-                        price_list
-                    } = res.data;
-                    await Product.updateOne({ product_id: product_id }, {
-                        product_name,
-                        product_desc_en,
-                        product_desc_th,
-                        category_name,
-                        group_name,
-                        unit,
-                        price_min_avg,
-                        price_max_avg,
-                        price_list,
-                        description: "last update data" + today
-                    });
-                }
 
-            })
+        try {
+            let resData = await axios.get("https://dataapi.moc.go.th/gis-product-prices?product_id=" + element.product_id + "&from_date=" + weekAgo + "&to_date=" + today);
+            if (resData?.data?.error != "Bad Request.") {
+                console.log(resData.data);
+                const {
+                    product_id,
+                    product_name,
+                    product_desc_en,
+                    product_desc_th,
+                    category_name,
+                    group_name,
+                    unit,
+                    price_min_avg,
+                    price_max_avg,
+                    price_list
+                } = resData.data;
+                await Product.updateOne({ product_id: product_id }, {
+                    product_name,
+                    product_desc_en,
+                    product_desc_th,
+                    category_name,
+                    group_name,
+                    unit,
+                    price_min_avg,
+                    price_max_avg,
+                    price_list,
+                    description: "last update data" + today
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+
+
     });
 
     console.log("updateProduct Success date " + today);

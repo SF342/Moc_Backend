@@ -7,10 +7,11 @@ const { API_PORT } = process.env
 const port = process.env.PORT || API_PORT
 
 function updateStamp() {
+    console.log('update');
     updateProduct()
 }
 
-// updateStamp();
+updateStamp();
 
 setInterval(() => {
     updateStamp();
