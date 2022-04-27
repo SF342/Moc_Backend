@@ -3,7 +3,7 @@ const { default: mongoose } = require('mongoose');
 
 // create task
 const getProduct = async (req, res) => {
-    let PID = req.body.productid;
+    let PID = req.params['pid'];
     try {
         const getProduct = await Product.findOne({ product_id: PID });
         res.status(200).send(getProduct);
@@ -15,7 +15,7 @@ const getProduct = async (req, res) => {
 
 
 const getProductLastPrice = async (req, res) => {
-    let PID = req.body.productid;
+    let PID = req.params['pid'];
     try {
         const getProduct = await Product.findOne({ product_id: PID });
 
